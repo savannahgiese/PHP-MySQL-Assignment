@@ -19,14 +19,14 @@ if($mysqli -> connect_errno) {
 <body>
 <h1>Movie Database</h1>
 <h3>Please enter a movie:</h3>
-<form action="http://savvyg.me/Test%20Stuff/test.php" method="post">
+<form action="http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php" method="post">
     <p>Name:
       <input type="text" name="name">
       Category:
       <input type="text" name="category">
       Length (min):
       <input type="text" name="length">
-      <input type="submit" name = "adding" onClick="parent.location='http://savvyg.me/Test%20Stuff/test.php'" value='Add Video'>
+      <input type="submit" name = "adding" onClick="parent.location='http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php'" value='Add Video'>
     </p>
 </form>
 
@@ -198,18 +198,18 @@ while ($stmt->fetch()) {
     }else{
         $availability = "Checked Out";
     }
-    echo "<td><form action=\"http://savvyg.me/Test%20Stuff/test.php\" method=\"post\">
+    echo "<td><form action=\"http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php\" method=\"post\">
     <input type=\"hidden\" name=\"availability\" value=\"".$out_id."\"/>
-    <input type =\"submit\" name=\"checked\" onClick=\"parent.location='http://savvyg.me/Test%20Stuff/test.php\" 
+    <input type =\"submit\" name=\"checked\" onClick=\"parent.location='http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php'\" 
     value='$availability'></form></td>";
-    echo "<td><form action=\"http://savvyg.me/Test%20Stuff/test.php\" method=\"post\">
+    echo "<td><form action=\"http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php\" method=\"post\">
     <input type=\"hidden\" name=\"delete1\" value=\"".$out_id."\"/>
-    <input type =\"submit\" name=\"delete\" onClick=\"parent.location='http://savvyg.me/Test%20Stuff/test.php\" 
+    <input type =\"submit\" name=\"delete\" onClick=\"parent.location='http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php'\" 
     value='Delete'></form></td>";
     echo "</tr>";
 }
-echo "<tr><td></td><td></td><td></td><td></td><td></td><td><form action=\"http://savvyg.me/Test%20Stuff/test.php\" method=\"post\">
-    <input type =\"submit\" name=\"deleteAll\" onClick=\"parent.location='http://savvyg.me/Test%20Stuff/test.php\" 
+echo "<tr><td></td><td></td><td></td><td></td><td></td><td><form action=\"http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php\" method=\"post\">
+    <input type =\"submit\" name=\"deleteAll\" onClick=\"parent.location='http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php'\" 
     value='Delete All'></form>";
 echo "</tbody>";
 echo "</table>";
@@ -217,7 +217,7 @@ echo "</table>";
 $queryusers = "SELECT DISTINCT `category` FROM `inventory` WHERE `category` IS NOT NULL AND TRIM(`category`) <> ''";
 $db = mysqli_query($mysqli, $queryusers);
 
-echo"<form action=\"http://savvyg.me/Test%20Stuff/test.php\" method=\"post\">";
+echo"<form action=\"http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php\" method=\"post\">";
 
 echo "<select name=\"selection\">";
 while ($d=mysqli_fetch_assoc($db)) {
@@ -226,6 +226,6 @@ while ($d=mysqli_fetch_assoc($db)) {
 echo "<option value=\"'allMovies'\">All Movies</option>";
 echo "</select>";
 
-echo "<input type=\"submit\" name =\"filter\" onClick=\"parent.location='http://savvyg.me/Test%20Stuff/test.php'\" value='Filter'>";
+echo "<input type=\"submit\" name =\"filter\" onClick=\"parent.location='http://savvyg.me/CS_290/PHP-MySQL-Assignment/MovieDatabase.php'\" value='Filter'>";
 echo "</form>";
 ?>
