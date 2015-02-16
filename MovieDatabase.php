@@ -37,6 +37,57 @@ if($mysqli -> connect_errno) {
 //    echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
 //}
 
+if(isset($_POST['delete'])){
+    //echo $_POST['delete1'];
+    $toDelete = $_POST['delete1'];
+    if(!($stmt = $mysqli->prepare("DELETE FROM `inventory` WHERE `id` = ?"))){
+        echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    if (!$stmt->bind_param("d", $toDelete)) {
+            echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    }
+    if (!$stmt->execute()) {
+            echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+}
+
+if(isset($_POST['deleteAll'])){
+    //echo "Deleting all";
+    $mysqli->query("TRUNCATE TABLE `inventory`");
+}
+
+if(isset($_POST['checked'])){
+    if ($_POST['checked'] == "Available"){
+        //echo "Change this to checked out";
+        $checkID = $_POST['availability'];
+        $value = 1;
+        if (!($stmt = $mysqli->prepare("UPDATE inventory SET rented = ? WHERE id = ?"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        if (!$stmt->bind_param("dd", $value, $checkID)) {
+            echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        }
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        //echo $_POST['checked'];
+    } else if ($_POST['checked'] == "Checked Out"){
+        //echo "Change this to available";
+        $checkID = $_POST['availability'];
+        $value = 0;
+        if (!($stmt = $mysqli->prepare("UPDATE inventory SET rented = ? WHERE id = ?"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        if (!$stmt->bind_param("dd", $value, $checkID)) {
+            echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        }
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        //echo $_POST['checked'];
+    }
+    //echo $_POST['availability'];
+}
 
 if(isset($_POST['adding'])){
     if($_POST['name'] == '' || !is_string($_POST['name'])){
@@ -76,6 +127,63 @@ if(isset($_POST['adding'])){
     }
 }
 
+if(isset($_POST['filter'])){
+    $selection = $_POST['selection'];
+    //echo $selection;
+    if($selection == "'allMovies'"){
+        //echo "It was set to $selection";
+        if (!($stmt = $mysqli->prepare("SELECT * FROM inventory"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        $out_id = NULL;
+        $out_name = NULL;
+        $out_category = NULL;
+        $out_length = NULL;
+        $out_rented = NULL;
+        if (!$stmt->bind_result($out_id, $out_name, $out_category, $out_length, $out_rented)) {
+            echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        }
+    }else {
+        //echo "It was set to else $selection";
+        if (!($stmt = $mysqli->prepare("SELECT * FROM inventory WHERE `category` = $selection"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        
+        $out_id = NULL;
+        $out_name = NULL;
+        $out_category = NULL;
+        $out_length = NULL;
+        $out_rented = NULL;
+        if (!$stmt->bind_result($out_id, $out_name, $out_category, $out_length, $out_rented)) {
+            echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        }
+    }
+} else{
+    if (!($stmt = $mysqli->prepare("SELECT * FROM inventory"))) {
+        echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    
+    if (!$stmt->execute()) {
+        echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    
+    $out_id = NULL;
+    $out_name = NULL;
+    $out_category = NULL;
+    $out_length = NULL;
+    $out_rented = NULL;
+    if (!$stmt->bind_result($out_id, $out_name, $out_category, $out_length, $out_rented)) {
+        echo "Binding output parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    }
+}
+
 echo "<table>";
 echo "<tbody>";
 echo "<tr><td>Id</td><td>Name</td><td>Category</td><td>Length (min)</td><td>Rented</td></tr>";
@@ -105,4 +213,19 @@ echo "<tr><td></td><td></td><td></td><td></td><td></td><td><form action=\"http:/
     value='Delete All'></form>";
 echo "</tbody>";
 echo "</table>";
+
+$queryusers = "SELECT DISTINCT `category` FROM `inventory` WHERE `category` IS NOT NULL AND TRIM(`category`) <> ''";
+$db = mysqli_query($mysqli, $queryusers);
+
+echo"<form action=\"http://savvyg.me/Test%20Stuff/test.php\" method=\"post\">";
+
+echo "<select name=\"selection\">";
+while ($d=mysqli_fetch_assoc($db)) {
+  echo "<option value=\"'".$d['category']."'\">".$d['category']."</option>";
+}
+echo "<option value=\"'allMovies'\">All Movies</option>";
+echo "</select>";
+
+echo "<input type=\"submit\" name =\"filter\" onClick=\"parent.location='http://savvyg.me/Test%20Stuff/test.php'\" value='Filter'>";
+echo "</form>";
 ?>
