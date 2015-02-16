@@ -1,0 +1,23 @@
+Start: Sun, 15 Feb 2015 20:00:25 -0500
+End: Sun, 15 Feb 2015 21:21:25 -0500 
+Tasks: Finalized website
+
+Start: Sat, 14 Feb 2015 14:29:25 -0500
+End: Sat, 14 Feb 2015 16:46:25 -0500 
+Tasks: Finished filter, and finished delete one at a time
+
+Start: Fri, 13 Feb 2015 12:32:43 -0500
+End: Fri, 13 Feb 2015 14:35:43 -0500 
+Tasks: Worked on deleting one a time, worked on checked out/in
+
+Start: Thur, 12 Feb 2015 19:30:33 -0500
+End: Thur, 12 Feb 2015 21:46:33 -0500 
+Tasks: Added the delete all button, and worked on filter
+
+Start: Thur, 12 Feb 2015 8:00:15 -0500 
+End: Thur, 12 Feb 2015 10:27:15 -0500 
+Tasks: Added output for table, and added the add section
+
+Start: Wed, 11 Feb 2015 20:27:32 -0500
+End: Wed, 11 Feb 2015 22:00:43 -0500 
+Tasks: Connected to MySQL and added text input
